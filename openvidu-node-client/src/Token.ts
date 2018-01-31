@@ -12,25 +12,25 @@ export class Token {
     private hostname: string;
     private port: number;
 
-    constructor(private urlOpenViduServer: string, private secret: string, private sessionId: string) {
+    constructor(private urlOpenViduServer: string, private secret: string) {
         this.setHostnameAndPort();
     }
 
-    public generateToken(callback: Function);
-    public generateToken(tokenOptions: TokenOptions, callback: Function);
+    public generateToken(sessionId: string, callback: Function);
+    public generateToken(sessionId: string, tokenOptions: TokenOptions, callback: Function);
 
-    public generateToken(tokenOptions: any, callback?: any) {
+    public generateToken(sessionId: string, tokenOptions: any, callback?: any) {
         let requestBody;
 
         if (callback) {
             requestBody = JSON.stringify({
-                'session': this.sessionId,
+                'session': sessionId,
                 'role': tokenOptions.getRole(),
                 'data': tokenOptions.getData()
             });
         } else {
             requestBody = JSON.stringify({
-                'session': this.sessionId,
+                'session': sessionId,
                 'role': OpenViduRole.PUBLISHER,
                 'data': ''
             });
